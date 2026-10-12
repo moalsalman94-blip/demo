@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14161b">
+<title>97 Hair Design</title>
+<link rel="icon" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14161b;
+    --bg-2: #1b1e25;
+    --card: #20242c;
+    --card-2: #282d37;
+    --border: #323846;
+    --text: #f2f3f5;
+    --muted: #9aa1ad;
+    --gold: #d6a85b;
+    --gold-2: #f0c97f;
+    --gold-ink: #241a08;
+    --green: #3ecf8e;
+    --red: #ef5b5b;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; }
+  body {
+    font-family: 'Cairo', Tahoma, Arial, sans-serif;
+    background:
+      radial-gradient(900px 500px at 50% -10%, rgba(214,168,91,.18) 0%, transparent 65%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--text);
+    min-height: 100vh;
+  }
+  button, input, select { font-family: inherit; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px 40px; }
+  .hidden { display: none !important; }
+
+  /* ---------- الهيدر ---------- */
+  .topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .logo {
+    width: 52px; height: 52px; border-radius: 14px; flex: none; object-fit: cover;
+    border: 2px solid var(--gold); box-shadow: 0 6px 18px rgba(0,0,0,.45);
+  }
+  .topbar.home-mode { display: none; }
+
+  /* ---------- الشعار الكبير ---------- */
+  .hero { text-align: center; margin: 4px 0 22px; }
+  .hero-frame {
+    position: relative; width: min(230px, 62vw); aspect-ratio: 1; margin: 0 auto; border-radius: 26px; padding: 5px;
+    background: linear-gradient(145deg, #f3d08a, #8a6a32 40%, #e8c27a 60%, #6e5226);
+    box-shadow: 0 22px 50px rgba(0,0,0,.6), 0 0 60px rgba(214,168,91,.22);
+    animation: rise .6s ease both;
+  }
+  .hero-frame img { width: 100%; height: 100%; display: block; border-radius: 21px; object-fit: cover; }
+  .hero-frame::after {
+    content: ''; position: absolute; inset: 5px; border-radius: 21px; pointer-events: none;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%);
+    background-size: 250% 100%; animation: shine 5s ease-in-out infinite;
+  }
+  .brand {
+    font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; letter-spacing: 3px; margin: 18px 0 2px;
+    background: linear-gradient(180deg, var(--gold-2), var(--gold) 60%, #9c7838);
+    -webkit-background-clip: text; background-clip: text; color: transparent; direction: ltr;
+  }
+  .hero .date { color: var(--muted); font-size: 14px; }
+  .divider { display: flex; align-items: center; gap: 10px; justify-content: center; color: var(--gold); margin-top: 8px; }
+  .divider::before, .divider::after { content: ''; height: 1px; width: 60px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .divider::after { transform: scaleX(-1); }
+  @keyframes shine { 0%, 60% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .hero-frame, .hero-frame::after { animation: none; } }
+  .topbar h1 { margin: 0; font-size: 24px; font-weight: 800; line-height: 1.2; }
+  .topbar .sub { color: var(--muted); font-size: 14px; }
+  .back {
+    margin-inline-start: auto; border: 1px solid var(--border); background: var(--card);
+    color: var(--text); border-radius: 12px; padding: 8px 14px; font-size: 15px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back:hover { border-color: var(--gold); }
+
+  /* ---------- بطاقات ---------- */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .section-title { font-size: 15px; color: var(--muted); font-weight: 700; margin: 0 0 12px; }
+
+  /* ---------- الصفحة الرئيسية ---------- */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px; }
+  .stat .label { color: var(--muted); font-size: 13px; }
+  .stat .value { font-size: 22px; font-weight: 800; margin-top: 2px; direction: ltr; text-align: right; }
+  .stat.gold .value { color: var(--gold-2); }
+
+  .action {
+    width: 100%; display: flex; align-items: center; gap: 16px; text-align: right;
+    border: 0; border-radius: 22px; padding: 22px; cursor: pointer; margin-bottom: 14px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .action:active { transform: scale(.98); }
+  .action .ic { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; flex: none; }
+  .action .ic svg { width: 32px; height: 32px; }
+  .action .t { font-size: 24px; font-weight: 800; display: block; }
+  .action .d { font-size: 14px; opacity: .8; }
+  .action.primary { background: linear-gradient(135deg, var(--gold-2), var(--gold)); color: var(--gold-ink); box-shadow: 0 14px 34px rgba(214,168,91,.25); }
+  .action.primary .ic { background: rgba(36,26,8,.12); }
+  .action.ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+  .action.ghost .ic { background: var(--card-2); color: var(--gold-2); }
+
+  .hero-action { padding: 30px 22px; margin-top: 6px; }
+  .hero-action .t { font-size: 30px; }
+  .admin-link {
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin: 26px auto 0;
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 99px; padding: 10px 22px; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .admin-link:hover { color: var(--gold-2); border-color: var(--gold); }
+  .admin-link svg { width: 18px; height: 18px; }
+  .today-list .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  .today-list .item:last-child { border-bottom: 0; }
+  .today-list .who { display: flex; align-items: center; gap: 10px; }
+  .today-list .amt { font-weight: 700; direction: ltr; }
+  .empty { color: var(--muted); text-align: center; padding: 14px 0; }
+
+  /* ---------- اختيار الحلاق ---------- */
+  .barbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .barber {
+    position: relative; border: 2px solid var(--border); background: var(--card-2); color: var(--text);
+    border-radius: 16px; padding: 16px 8px 12px; cursor: pointer; text-align: center;
+    transition: border-color .12s, background .12s, transform .12s;
+  }
+  .barber:active { transform: scale(.97); }
+  .barber .name { font-size: 16px; font-weight: 700; margin-top: 8px; }
+  .barber.sel { border-color: var(--gold); background: rgba(214,168,91,.12); }
+  .barber.sel::after {
+    content: '✓'; position: absolute; top: 8px; left: 8px; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--gold); color: var(--gold-ink); font-size: 13px; font-weight: 800; display: grid; place-items: center;
+  }
+  .avatar {
+    width: 46px; height: 46px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center;
+    font-weight: 800; font-size: 18px; color: #fff;
+  }
+  .avatar.sm { width: 34px; height: 34px; font-size: 14px; margin: 0; }
+
+  /* ---------- المبلغ ---------- */
+  .amount-box {
+    display: flex; align-items: center; gap: 10px; background: var(--bg-2); border: 2px solid var(--border);
+    border-radius: 16px; padding: 6px 16px; transition: border-color .12s;
+  }
+  .amount-box:focus-within { border-color: var(--gold); }
+  .amount-box input {
+    flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--text);
+    font-size: 40px; font-weight: 800; padding: 6px 0; direction: ltr; text-align: right;
+  }
+  .amount-box input::-webkit-outer-spin-button, .amount-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .amount-box input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+  .amount-box .cur { color: var(--muted); font-weight: 700; }
+  .quick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .quick button {
+    flex: 1; min-width: 60px; padding: 10px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card-2); color: var(--text); font-size: 16px; font-weight: 700; cursor: pointer;
+  }
+  .quick button:hover { border-color: var(--gold); }
+
+  .pays { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pay {
+    border: 2px solid var(--border); background: var(--card-2); color: var(--text); border-radius: 14px;
+    padding: 14px 6px; cursor: pointer; font-size: 17px; font-weight: 800;
+    display: flex; flex-direction: column; align-items: center; gap: 6px; transition: border-color .12s, background .12s;
+  }
+  .pay svg { width: 26px; height: 26px; color: var(--muted); }
+  .pay.sel { border-color: var(--gold); background: rgba(214,168,91,.12); }
+  .pay.sel svg { color: var(--gold-2); }
+  .pay-tag { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 13px; font-weight: 700; background: var(--card-2); border: 1px solid var(--border); }
+  .pay-break { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .pay-break .stat .label { display: flex; align-items: center; gap: 6px; }
+  .pay-break .stat svg { width: 16px; height: 16px; color: var(--gold-2); }
+  .into {
+    display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 12px 14px; border-radius: 14px;
+    background: rgba(214,168,91,.10); border: 1px solid rgba(214,168,91,.35);
+  }
+  .into svg { width: 22px; height: 22px; color: var(--gold-2); flex: none; }
+  .into .num { margin-inline-start: auto; font-size: 22px; color: var(--gold-2); direction: ltr; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .split .part { border-radius: 16px; padding: 14px; background: var(--card-2); border: 1px solid var(--border); }
+  .split .part .label { color: var(--muted); font-size: 13px; }
+  .split .part .value { font-size: 26px; font-weight: 800; direction: ltr; text-align: right; }
+  .split .part.b .value { color: var(--green); }
+  .split .part.s .value { color: var(--gold-2); }
+  .bar { height: 8px; border-radius: 99px; overflow: hidden; display: flex; margin-top: 12px; background: var(--card-2); }
+  .bar span:first-child { width: 60%; background: var(--green); }
+  .bar span:last-child { width: 40%; background: var(--gold); }
+
+  .btn {
+    border: 0; border-radius: 14px; padding: 16px; font-size: 18px; font-weight: 800; cursor: pointer; width: 100%;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn.gold { background: linear-gradient(135deg, var(--gold-2), var(--gold)); color: var(--gold-ink); }
+  .btn.gold:disabled { opacity: .45; cursor: not-allowed; }
+  .btn.dark { background: var(--card-2); color: var(--text); border: 1px solid var(--border); }
+  .btn svg { width: 20px; height: 20px; }
+  .err { color: var(--red); text-align: center; min-height: 22px; margin-top: 10px; font-weight: 600; }
+
+  /* ---------- كشف الحساب ---------- */
+  .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: none; border: 1px solid var(--border); background: var(--card); color: var(--text);
+    border-radius: 99px; padding: 8px 16px; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .tab.active { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+  .dates { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dates label { display: block; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  .dates input {
+    width: 100%; background: var(--bg-2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px; font-size: 15px; color-scheme: dark;
+  }
+  .chips { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chips button { border: 1px solid var(--border); background: var(--card-2); color: var(--muted); border-radius: 99px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+  .chips button:hover { color: var(--text); border-color: var(--gold); }
+
+  .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 11px 10px; text-align: center; white-space: nowrap; }
+  th { background: var(--card-2); color: var(--muted); font-weight: 700; font-size: 13px; }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,.02); }
+  tbody td { border-top: 1px solid var(--border); }
+  td.num { direction: ltr; font-weight: 700; }
+  tfoot td { border-top: 2px solid var(--gold); font-weight: 800; background: var(--card-2); }
+  .del { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: 4px; border-radius: 8px; }
+  .del:hover { color: var(--red); background: rgba(239,91,91,.1); }
+  .del svg { width: 18px; height: 18px; }
+
+  .print-head { display: none; }
+
+  /* ---------- إشعار ---------- */
+  /* ---------- كلمة سر الإدارة ---------- */
+  .modal {
+    position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px;
+    background: rgba(8,9,12,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .modal-card {
+    width: min(360px, 100%); background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+    padding: 24px 20px 20px; text-align: center; box-shadow: var(--shadow); animation: rise .25s ease both;
+  }
+  .modal-card .logo { width: 64px; height: 64px; margin: 0 auto 10px; display: block; }
+  .modal-card h3 { margin: 0 0 4px; font-size: 20px; }
+  .modal-card p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+  .modal-card input {
+    width: 100%; text-align: center; font-size: 26px; letter-spacing: 8px; padding: 12px; margin-bottom: 8px;
+    background: var(--bg-2); color: var(--text); border: 2px solid var(--border); border-radius: 14px; outline: 0; direction: ltr;
+  }
+  .modal-card input:focus { border-color: var(--gold); }
+  .modal-card .row2 { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-top: 6px; }
+  .shake { animation: shake .35s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+
+  /* ---------- حذف الحركات ---------- */
+  .del-list .item { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px dashed var(--border); }
+  .del-list .item:last-child { border-bottom: 0; }
+  .del-list .info { flex: 1; min-width: 0; }
+  .del-list .info .meta { color: var(--muted); font-size: 13px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .del-list .amt { font-weight: 800; font-size: 17px; direction: ltr; }
+  .del-btn {
+    border: 1px solid rgba(239,91,91,.4); background: rgba(239,91,91,.08); color: var(--red);
+    border-radius: 12px; padding: 8px; cursor: pointer; display: grid; place-items: center;
+  }
+  .del-btn:hover { background: rgba(239,91,91,.18); }
+  .del-btn svg { width: 20px; height: 20px; }
+  .action.danger .ic { color: var(--red); }
+  .backup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .backup-row .btn { font-size: 16px; padding: 14px 10px; }
+  .backup-note { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+  .backup-note.warn { color: var(--gold-2); }
+  .chips button.on { color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 140%);
+    background: var(--green); color: #062014; font-weight: 700; padding: 14px 20px; border-radius: 14px;
+    box-shadow: var(--shadow); transition: transform .25s ease, opacity .25s ease, visibility .25s; z-index: 10; max-width: calc(100% - 32px); text-align: center;
+    opacity: 0; visibility: hidden;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
+
+  @media (max-width: 520px) {
+    .barbers { grid-template-columns: repeat(2, 1fr); }
+    .stat .value { font-size: 18px; }
+    .summary .stat .value { font-size: 16px; }
+    .action .t { font-size: 20px; }
+    table { font-size: 13px; }
+    th, td { white-space: normal; padding: 9px 5px; }
+    th { font-size: 12px; }
+  }
+
+  /* ---------- الطباعة ---------- */
+  @media print {
+    @page { margin: 14mm; }
+    body { background: #fff; color: #000; }
+    .no-print, .topbar, .toast { display: none !important; }
+    .card { box-shadow: none; border: 0; padding: 0; background: #fff; }
+    .print-head { display: block; text-align: center; margin-bottom: 14px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+    .print-head h2 { margin: 0 0 2px; }
+    .print-logo { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; margin-bottom: 6px; }
+    .print-brand { font-family: 'Cinzel', serif; letter-spacing: 2px; font-size: 13px; margin-bottom: 4px; direction: ltr; unicode-bidi: isolate; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-head p { margin: 0; font-size: 13px; }
+    .summary .stat, .pay-break .stat { background: #fff; border-color: #999; color: #000; }
+    .stat .label { color: #444; }
+    .stat.gold .value { color: #000; }
+    .pay-tag { background: #fff; border-color: #999; }
+    .pay-break .stat svg { color: #000; }
+    .table-wrap { border: 0; overflow: visible; }
+    table { font-size: 13px; }
+    th, td { white-space: normal; padding: 6px; }
+    th { background: #eee; color: #000; }
+    th, td { border: 1px solid #999 !important; }
+    tfoot td { background: #f3f3f3; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- الهيدر -->
+  <header class="topbar" id="topbar">
+    <img class="logo" src="logo.jpg" alt="97 Hair Design" onclick="go('home')" style="cursor:pointer">
+    <div>
+      <h1 id="pageTitle">صندوق الصالون</h1>
+      <div class="sub" id="pageSub"></div>
+    </div>
+    <button class="back hidden" id="backBtn">رجوع ←</button>
+  </header>
+
+  <!-- الصفحة الرئيسية -->
+  <section id="home">
+    <div class="hero">
+      <div class="hero-frame"><img src="logo.jpg" alt="97 Hair Design"></div>
+      <div class="brand">97 HAIR DESIGN</div>
+      <div class="divider">✂</div>
+      <div class="date" id="heroDate"></div>
+    </div>
+
+    <button class="action primary hero-action" onclick="go('receive')">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      <span><span class="t">استلام مبلغ</span><span class="d">سجّل المبلغ بالصندوق أو كليك أو فيزا، 60% منه للحلاق</span></span>
+    </button>
+
+    <button class="admin-link" onclick="go('admin')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      الإدارة
+    </button>
+  </section>
+
+  <!-- صفحة الإدارة -->
+  <section id="admin" class="hidden">
+    <div class="stats">
+      <div class="stat"><div class="label">دخل اليوم</div><div class="value" id="tTotal">0</div></div>
+      <div class="stat gold"><div class="label">ربح المحل اليوم</div><div class="value" id="tShop">0</div></div>
+      <div class="stat"><div class="label">عدد الحركات</div><div class="value" id="tCount">0</div></div>
+    </div>
+
+    <h3 class="section-title">أرصدة الحسابات اليوم</h3>
+    <div class="pay-break" id="tPays"></div>
+
+    <button class="action ghost" onclick="go('statement')">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span>
+      <span><span class="t">كشف حساب</span><span class="d">كشف الحلاقين وصندوق المحل وكليك وفيزا مع الطباعة</span></span>
+    </button>
+
+    <button class="action ghost danger" onclick="go('remove')">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></span>
+      <span><span class="t">حذف حركات</span><span class="d">حذف مبلغ انسجل بالغلط</span></span>
+    </button>
+
+    <div class="card">
+      <h3 class="section-title">حساب الحلاقين اليوم</h3>
+      <div class="today-list" id="todayList"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">النسخ الاحتياطي</h3>
+      <div class="backup-row">
+        <button class="btn gold" onclick="exportBackup()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          نسخة احتياطية
+        </button>
+        <button class="btn dark" onclick="document.getElementById('restoreFile').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          استرجاع
+        </button>
+      </div>
+      <input type="file" id="restoreFile" accept=".json,application/json" class="hidden" onchange="importBackup(this)">
+      <div class="backup-note" id="backupNote"></div>
+    </div>
+  </section>
+
+  <!-- صفحة حذف الحركات -->
+  <section id="remove" class="hidden">
+    <div class="card">
+      <div class="chips" id="removeChips" style="margin-top:0"></div>
+    </div>
+    <div class="card">
+      <div class="del-list" id="removeList"></div>
+    </div>
+  </section>
+
+  <!-- صفحة استلام مبلغ -->
+  <section id="receive" class="hidden">
+    <div class="card">
+      <h3 class="section-title">١. اختر الحلاق</h3>
+      <div class="barbers" id="barberButtons"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">٢. قيمة المبلغ</h3>
+      <div class="amount-box">
+        <input id="amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0" oninput="updatePreview()">
+      </div>
+      <div class="quick" id="quick"></div>
+
+      <div class="split">
+        <div class="part b"><div class="label" id="bLabel">للحلاق (60%)</div><div class="value" id="bVal">0.00</div></div>
+        <div class="part s"><div class="label">ربح المحل (40%)</div><div class="value" id="sVal">0.00</div></div>
+      </div>
+      <div class="bar"><span></span><span></span></div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">٣. طريقة الدفع</h3>
+      <div class="pays" id="payButtons"></div>
+      <div class="into" id="intoLine"></div>
+    </div>
+
+    <button class="btn gold" id="saveBtn" onclick="saveEntry()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      حفظ المبلغ
+    </button>
+    <div class="err" id="err"></div>
+  </section>
+
+  <!-- صفحة كشف الحساب -->
+  <section id="statement" class="hidden">
+    <div class="tabs no-print" id="tabs"></div>
+
+    <div class="card no-print">
+      <div class="dates">
+        <div><label for="from">من تاريخ</label><input id="from" type="date" onchange="renderStatement()"></div>
+        <div><label for="to">إلى تاريخ</label><input id="to" type="date" onchange="renderStatement()"></div>
+      </div>
+      <div class="chips">
+        <button onclick="setRange('today')">اليوم</button>
+        <button onclick="setRange('week')">آخر 7 أيام</button>
+        <button onclick="setRange('month')">هذا الشهر</button>
+        <button onclick="setRange('all')">الكل</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="print-head" id="printHead"></div>
+      <div id="report"></div>
+    </div>
+
+    <button class="btn gold no-print" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      طباعة الكشف
+    </button>
+  </section>
+
+</div>
+
+<div class="modal hidden" id="loginModal" onclick="if (event.target === this) closeLogin()">
+  <div class="modal-card" id="loginCard">
+    <img class="logo" src="logo.jpg" alt="">
+    <h3>الإدارة</h3>
+    <p>أدخل كلمة السر</p>
+    <input id="pass" type="password" inputmode="numeric" autocomplete="off" onkeydown="if (event.key === 'Enter') tryLogin()">
+    <div class="err" id="passErr" style="margin-top:0"></div>
+    <div class="row2">
+      <button class="btn gold" onclick="tryLogin()">دخول</button>
+      <button class="btn dark" onclick="closeLogin()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // الترتيب مهم: الحركات المحفوظة بتشير للحلاق برقم ترتيبه
+  const BARBERS = ['قصي', 'بشار', 'محمد', 'احمد', 'يوسف', 'المساعد يوسف'];
+  const INITIALS = ['ق', 'ب', 'م', 'أ', 'ي', 'مس'];
+  const COLORS = ['#5b8def', '#3ecf8e', '#e8743b', '#b06ad9', '#e05a8a', '#2bb3c0'];
+  const BARBER_PCT = 0.60;
+  const STORE_KEY = 'salon_entries_v1';
+  const BACKUP_KEY = 'salon_last_backup';
+  const QUICK = [5, 10, 15, 20, 30, 50];
+  const TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
+
+  const PAYMENTS = {
+    cash: { name: 'نقداً', account: 'صندوق المحل', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>' },
+    cliq: { name: 'كليك', account: 'كليك', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/><path d="M9.5 10.5l2 2 3.5-4"/></svg>' },
+    visa: { name: 'فيزا', account: 'فيزا', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>' }
+  };
+  const DEFAULT_PAY = 'cash';
+  // الحركات القديمة بدون طريقة دفع كانت كلها على صندوق المحل
+  function payOf(e) { return PAYMENTS[e.pay] ? e.pay : DEFAULT_PAY; }
+  function payName(e) { return PAYMENTS[payOf(e)].name; }
+  function accountName(k) { return PAYMENTS[k].account; }
+  // المبلغ كامل بينزل بالحساب حسب طريقة الدفع
+  function accountsBreakdown(list) {
+    const sums = {};
+    Object.keys(PAYMENTS).forEach(k => sums[k] = 0);
+    list.forEach(e => { sums[payOf(e)] += e.amount; });
+    return Object.keys(PAYMENTS).map(k => `
+      <div class="stat"><div class="label">${PAYMENTS[k].icon}${accountName(k)}</div><div class="value">${money(sums[k])}</div></div>`).join('');
+  }
+
+  let selectedBarber = null;
+  let selectedPay = DEFAULT_PAY;
+  let statementWho = 'cash';
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; }
+  }
+  function save(list) { localStorage.setItem(STORE_KEY, JSON.stringify(list)); }
+  function round2(n) { return Math.round(n * 100) / 100; }
+  function money(n) { return round2(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function avatar(i, sm) {
+    return `<div class="avatar${sm ? ' sm' : ''}" style="background:${COLORS[i]}">${INITIALS[i]}</div>`;
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function dayStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function localDay(iso) { return dayStr(new Date(iso)); }
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function toast(text) {
+    const t = document.getElementById('toast');
+    t.textContent = text;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  const PAGES = {
+    home: ['97 Hair Design', () => new Date().toLocaleDateString('ar', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })],
+    receive: ['استلام مبلغ', () => 'اختر الحلاق واكتب المبلغ'],
+    admin: ['الإدارة', () => 'ملخص اليوم وكشوف الحساب'],
+    statement: ['كشف حساب', () => 'اختر الحساب والفترة ثم اطبع'],
+    remove: ['حذف حركات', () => 'اختر الحركة اللي بدك تحذفها']
+  };
+  const ADMIN_PAGES = ['admin', 'statement', 'remove'];
+  const ADMIN_PASSWORD = '123456';
+  let adminUnlocked = false;
+  let pendingPage = null;
+
+  function openLogin(page) {
+    pendingPage = page;
+    document.getElementById('pass').value = '';
+    document.getElementById('passErr').textContent = '';
+    document.getElementById('loginModal').classList.remove('hidden');
+    setTimeout(() => document.getElementById('pass').focus(), 50);
+  }
+  function closeLogin() {
+    document.getElementById('loginModal').classList.add('hidden');
+    pendingPage = null;
+  }
+  function tryLogin() {
+    const input = document.getElementById('pass');
+    if (input.value === ADMIN_PASSWORD) {
+      adminUnlocked = true;
+      const page = pendingPage;
+      closeLogin();
+      go(page);
+    } else {
+      document.getElementById('passErr').textContent = 'كلمة السر غلط';
+      const card = document.getElementById('loginCard');
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      input.value = ''; input.focus();
+    }
+  }
+
+  function go(page) {
+    if (ADMIN_PAGES.includes(page) && !adminUnlocked) { openLogin(page); return; }
+    // الخروج من الإدارة بيقفلها، والدخول مرة تانية بيطلب كلمة السر
+    if (!ADMIN_PAGES.includes(page)) adminUnlocked = false;
+    Object.keys(PAGES).forEach(id => document.getElementById(id).classList.toggle('hidden', id !== page));
+    document.getElementById('pageTitle').textContent = PAGES[page][0];
+    document.getElementById('pageSub').textContent = PAGES[page][1]();
+    const backBtn = document.getElementById('backBtn');
+    backBtn.classList.toggle('hidden', page === 'home');
+    backBtn.onclick = () => go(page === 'statement' || page === 'remove' ? 'admin' : 'home');
+    document.getElementById('topbar').classList.toggle('home-mode', page === 'home');
+    document.getElementById('heroDate').textContent = PAGES.home[1]();
+    window.scrollTo(0, 0);
+    if (page === 'admin') renderAdmin();
+    if (page === 'receive') resetReceive();
+    if (page === 'statement') renderStatement();
+    if (page === 'remove') renderRemove();
+  }
+
+  // ---------- الرئيسية ----------
+  function renderAdmin() {
+    const today = dayStr(new Date());
+    const list = load().filter(e => localDay(e.date) === today);
+    let total = 0, shop = 0;
+    const per = BARBERS.map(() => ({ share: 0, count: 0 }));
+    list.forEach(e => {
+      total += e.amount; shop += e.shopShare;
+      per[e.barber].share += e.barberShare; per[e.barber].count++;
+    });
+    document.getElementById('tTotal').textContent = money(total);
+    document.getElementById('tShop').textContent = money(shop);
+    document.getElementById('tCount').textContent = list.length;
+    document.getElementById('tPays').innerHTML = accountsBreakdown(list);
+    renderBackupNote();
+
+    const rows = per.map((p, i) => p.count ? `
+      <div class="item">
+        <div class="who">${avatar(i, true)}<div><b>${BARBERS[i]}</b><div class="sub" style="color:var(--muted);font-size:13px">${p.count} حركة</div></div></div>
+        <div class="amt">${money(p.share)}</div>
+      </div>` : '').join('');
+    document.getElementById('todayList').innerHTML = rows || '<div class="empty">لا توجد حركات اليوم بعد</div>';
+  }
+
+  // ---------- استلام مبلغ ----------
+  function buildBarberButtons() {
+    document.getElementById('barberButtons').innerHTML = BARBERS.map((n, i) => `
+      <button class="barber${selectedBarber === i ? ' sel' : ''}" onclick="pickBarber(${i})">
+        ${avatar(i)}<div class="name">${n}</div>
+      </button>`).join('');
+  }
+  function pickBarber(i) {
+    selectedBarber = i;
+    buildBarberButtons();
+    updatePreview();
+    document.getElementById('amount').focus();
+  }
+  function buildPayButtons() {
+    document.getElementById('payButtons').innerHTML = Object.keys(PAYMENTS).map(k => `
+      <button class="pay${selectedPay === k ? ' sel' : ''}" onclick="pickPay('${k}')">${PAYMENTS[k].icon}${PAYMENTS[k].name}</button>`).join('');
+  }
+  function pickPay(k) { selectedPay = k; buildPayButtons(); updatePreview(); }
+  function buildQuick() {
+    document.getElementById('quick').innerHTML = QUICK.map(v =>
+      `<button onclick="setAmount(${v})">${v}</button>`).join('');
+  }
+  function setAmount(v) {
+    document.getElementById('amount').value = v;
+    updatePreview();
+  }
+
+  function resetReceive() {
+    selectedBarber = null;
+    selectedPay = DEFAULT_PAY;
+    document.getElementById('amount').value = '';
+    document.getElementById('err').textContent = '';
+    buildBarberButtons();
+    buildQuick();
+    buildPayButtons();
+    updatePreview();
+  }
+
+  function updatePreview() {
+    const amount = parseFloat(document.getElementById('amount').value) || 0;
+    const b = round2(amount * BARBER_PCT);
+    document.getElementById('bVal').textContent = money(b);
+    document.getElementById('sVal').textContent = money(amount - b);
+    document.getElementById('bLabel').textContent =
+      (selectedBarber === null ? 'للحلاق' : 'لـ ' + BARBERS[selectedBarber]) + ' (60%)';
+    document.getElementById('intoLine').innerHTML =
+      `${PAYMENTS[selectedPay].icon}<span>ينزل كامل بـ <b>${accountName(selectedPay)}</b></span><b class="num">${money(amount)}</b>`;
+    document.getElementById('saveBtn').disabled = selectedBarber === null || !(amount > 0);
+    document.getElementById('err').textContent = '';
+  }
+
+  function saveEntry() {
+    const err = document.getElementById('err');
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (selectedBarber === null) { err.textContent = 'اختر الحلاق أولاً'; return; }
+    if (!(amount > 0)) { err.textContent = 'أدخل قيمة مبلغ صحيحة'; return; }
+
+    const barberShare = round2(amount * BARBER_PCT);
+    const entry = {
+      id: Date.now(),
+      date: new Date().toISOString(),
+      barber: selectedBarber,
+      amount: round2(amount),
+      barberShare,
+      shopShare: round2(amount - barberShare),
+      pay: selectedPay
+    };
+    const list = load();
+    list.push(entry);
+    save(list);
+
+    toast(`✓ نزل ${money(entry.amount)} بـ ${accountName(entry.pay)}، منها ${money(entry.barberShare)} لـ ${BARBERS[entry.barber]}`);
+    resetReceive();
+  }
+
+  // ---------- كشف الحساب ----------
+  function buildTabs() {
+    const opts = Object.keys(PAYMENTS).map(k => [k, accountName(k)]).concat(BARBERS.map((n, i) => [String(i), n]));
+    document.getElementById('tabs').innerHTML = opts.map(([v, n]) =>
+      `<button class="tab${statementWho === v ? ' active' : ''}" onclick="pickWho('${v}')">${n}</button>`).join('');
+  }
+  function pickWho(v) { statementWho = v; renderStatement(); }
+
+  function setRange(kind) {
+    const now = new Date();
+    let from = '', to = '';
+    if (kind === 'today') { from = to = dayStr(now); }
+    if (kind === 'week') { const d = new Date(now); d.setDate(d.getDate() - 6); from = dayStr(d); to = dayStr(now); }
+    if (kind === 'month') { from = dayStr(new Date(now.getFullYear(), now.getMonth(), 1)); to = dayStr(now); }
+    document.getElementById('from').value = from;
+    document.getElementById('to').value = to;
+    renderStatement();
+  }
+
+  function renderStatement() {
+    buildTabs();
+    const who = statementWho;
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    const isShop = who in PAYMENTS;
+
+    let list = load().filter(e => {
+      const day = localDay(e.date);
+      return (!from || day >= from) && (!to || day <= to);
+    });
+    list = isShop ? list.filter(e => payOf(e) === who) : list.filter(e => e.barber === Number(who));
+
+    const title = 'كشف حساب ' + (isShop ? accountName(who) : BARBERS[Number(who)]);
+    const range = (from || to) ? `الفترة: من ${from || 'البداية'} إلى ${to || 'اليوم'}` : 'الفترة: كل الحركات';
+    document.getElementById('printHead').innerHTML =
+      `<img src="logo.jpg" alt="" class="print-logo"><h2>${title}</h2><div class="print-brand" dir="ltr">97 HAIR DESIGN</div><p>${range} · تاريخ الطباعة: ${fmtDate(new Date().toISOString())}</p>`;
+
+    if (!list.length) {
+      document.getElementById('report').innerHTML = `<div class="empty">لا توجد حركات في هذه الفترة</div>`;
+      return;
+    }
+
+    let totalAmount = 0, totalBarber = 0, totalShop = 0;
+    list.forEach(e => { totalAmount += e.amount; totalBarber += e.barberShare; totalShop += e.shopShare; });
+    const del = e => `<td class="no-print"><button class="del" title="حذف" onclick="deleteEntry(${e.id})">${TRASH}</button></td>`;
+    const stat = (label, value, gold) =>
+      `<div class="stat${gold ? ' gold' : ''}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+
+    let summary, head, rows, foot;
+    if (isShop) {
+      // حساب (صندوق المحل / كليك / فيزا): المبلغ كامل بينزل بالحساب
+      summary = stat('رصيد الحساب', money(totalAmount), true) + stat('للحلاقين (60%)', money(totalBarber)) + stat('ربح المحل (40%)', money(totalShop));
+      head = '<th>#</th><th>التاريخ</th><th>الحلاق</th><th>المبلغ</th><th>للحلاق (60%)</th><th>للمحل (40%)</th>';
+      rows = list.map((e, i) => `<tr>
+        <td>${i + 1}</td><td>${fmtDate(e.date)}</td><td>${BARBERS[e.barber]}</td>
+        <td class="num">${money(e.amount)}</td><td class="num">${money(e.barberShare)}</td><td class="num">${money(e.shopShare)}</td>${del(e)}
+      </tr>`).join('');
+      foot = `<td class="num">${money(totalAmount)}</td><td class="num">${money(totalBarber)}</td><td class="num">${money(totalShop)}</td>`;
+    } else {
+      summary = stat('عدد الحركات', list.length) + stat('إجمالي المبالغ', money(totalAmount)) + stat('الرصيد (60%)', money(totalBarber), true);
+      head = '<th>#</th><th>التاريخ</th><th>الدفع</th><th>المبلغ الكامل</th><th>النصيب (60%)</th>';
+      rows = list.map((e, i) => `<tr>
+        <td>${i + 1}</td><td>${fmtDate(e.date)}</td><td><span class="pay-tag">${payName(e)}</span></td>
+        <td class="num">${money(e.amount)}</td><td class="num">${money(e.barberShare)}</td>${del(e)}
+      </tr>`).join('');
+      foot = `<td class="num">${money(totalAmount)}</td><td class="num">${money(totalBarber)}</td>`;
+    }
+
+    document.getElementById('report').innerHTML = `
+      <div class="summary">${summary}</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>${head}<th class="no-print"></th></tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr>
+            <td colspan="3">المجموع (${list.length} حركة)</td>${foot}<td class="no-print"></td>
+          </tr></tfoot>
+        </table>
+      </div>`;
+  }
+
+  function deleteEntry(id) {
+    const e = load().find(x => x.id === id);
+    if (!e) return;
+    if (!confirm(`حذف حركة ${BARBERS[e.barber]} بمبلغ ${money(e.amount)} (${payName(e)}) بتاريخ ${fmtDate(e.date)}؟`)) return;
+    save(load().filter(x => x.id !== id));
+    if (!document.getElementById('statement').classList.contains('hidden')) renderStatement();
+    if (!document.getElementById('remove').classList.contains('hidden')) renderRemove();
+    toast('تم حذف الحركة');
+  }
+
+  // ---------- النسخ الاحتياطي ----------
+  function renderBackupNote() {
+    const note = document.getElementById('backupNote');
+    const last = localStorage.getItem(BACKUP_KEY);
+    if (!last) {
+      note.textContent = 'ما في نسخة احتياطية لحد هلق';
+      note.className = 'backup-note warn';
+      return;
+    }
+    const days = Math.floor((Date.now() - new Date(last).getTime()) / 864e5);
+    note.textContent = 'آخر نسخة احتياطية: ' + fmtDate(last) + (days >= 7 ? ` (من ${days} يوم، اعمل نسخة جديدة)` : '');
+    note.className = 'backup-note' + (days >= 7 ? ' warn' : '');
+  }
+
+  async function exportBackup() {
+    const list = load();
+    const data = JSON.stringify({ app: '97-hair-design', version: 1, exportedAt: new Date().toISOString(), entries: list }, null, 1);
+    const name = `97-hair-design-backup-${dayStr(new Date())}.json`;
+    const file = new File([data], name, { type: 'application/json' });
+
+    // على الموبايل: نافذة المشاركة (واتساب، ملفات...)، وغير هيك تنزيل مباشر
+    let done = false;
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'نسخة احتياطية - 97 Hair Design' });
+        done = true;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+    if (!done) {
+      const url = URL.createObjectURL(file);
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    localStorage.setItem(BACKUP_KEY, new Date().toISOString());
+    renderBackupNote();
+    toast(`✓ تم حفظ نسخة احتياطية (${list.length} حركة)`);
+  }
+
+  function isValidEntry(e) {
+    return e && typeof e.id === 'number' && typeof e.date === 'string' && !isNaN(new Date(e.date)) &&
+      Number.isInteger(e.barber) && e.barber >= 0 && e.barber < BARBERS.length &&
+      [e.amount, e.barberShare, e.shopShare].every(n => typeof n === 'number' && isFinite(n));
+  }
+
+  function importBackup(input) {
+    const f = input.files[0];
+    input.value = '';
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      let entries;
+      try {
+        const data = JSON.parse(reader.result);
+        entries = Array.isArray(data) ? data : data.entries;
+        if (!Array.isArray(entries) || !entries.every(isValidEntry)) throw new Error('bad');
+      } catch (e) {
+        alert('هاد الملف مش نسخة احتياطية صحيحة من البرنامج');
+        return;
+      }
+      const current = load();
+      const ids = new Set(current.map(e => e.id));
+      const fresh = entries.filter(e => !ids.has(e.id));
+      if (!fresh.length) { toast('كل الحركات اللي بالملف موجودة أصلاً'); return; }
+      if (!confirm(`الملف فيه ${entries.length} حركة، منها ${fresh.length} مش موجودة هلق.\nبدك تضيفهم؟ (الحركات الموجودة ما بتتغير)`)) return;
+      const merged = current.concat(fresh).sort((a, b) => a.date.localeCompare(b.date));
+      save(merged);
+      renderAdmin();
+      toast(`✓ تم استرجاع ${fresh.length} حركة`);
+    };
+    reader.readAsText(f);
+  }
+
+  // ---------- حذف الحركات ----------
+  const REMOVE_RANGES = { today: 'اليوم', week: 'آخر 7 أيام', all: 'الكل' };
+  let removeRange = 'today';
+  function pickRemoveRange(k) { removeRange = k; renderRemove(); }
+
+  function renderRemove() {
+    document.getElementById('removeChips').innerHTML = Object.keys(REMOVE_RANGES).map(k =>
+      `<button class="${removeRange === k ? 'on' : ''}" onclick="pickRemoveRange('${k}')">${REMOVE_RANGES[k]}</button>`).join('');
+    const now = new Date();
+    const today = dayStr(now);
+    const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 6);
+    const from = removeRange === 'today' ? today : removeRange === 'week' ? dayStr(weekAgo) : '';
+    const list = load().filter(e => !from || localDay(e.date) >= from).sort((a, b) => b.date.localeCompare(a.date));
+    document.getElementById('removeList').innerHTML = list.length ? list.map(e => `
+      <div class="item">
+        ${avatar(e.barber, true)}
+        <div class="info">
+          <b>${BARBERS[e.barber]}</b>
+          <div class="meta"><span>${fmtDate(e.date)}</span><span class="pay-tag">${payName(e)}</span></div>
+        </div>
+        <div class="amt">${money(e.amount)}</div>
+        <button class="del-btn" title="حذف" onclick="deleteEntry(${e.id})">${TRASH}</button>
+      </div>`).join('') : '<div class="empty">لا توجد حركات</div>';
+  }
+
+  go('home');
+</script>
+</body>
+</html>
