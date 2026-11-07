@@ -3,7 +3,7 @@ import { useActionState } from "react";
 import { adminResetPasswordAction, updateCompanyAction } from "../../../actions";
 import { FormAlert, SubmitButton } from "@/components/forms";
 
-type C = { id: string; name: string; phone: string; notes: string; maxUsers: number; expiresAt: string };
+type C = { id: string; name: string; phone: string; taxNumber: string; city: string; notes: string; maxUsers: number; expiresAt: string };
 
 export function EditCompanyForm({ c }: { c: C }) {
   const [state, action] = useActionState(updateCompanyAction, undefined);
@@ -15,6 +15,10 @@ export function EditCompanyForm({ c }: { c: C }) {
       <div className="form-row">
         <div className="field"><label>الهاتف</label><input name="phone" className="input ltr" defaultValue={c.phone} /></div>
         <div className="field"><label>أقصى عدد مستخدمين</label><input name="maxUsers" type="number" min={1} max={500} className="input" defaultValue={c.maxUsers} /></div>
+      </div>
+      <div className="form-row">
+        <div className="field"><label>الرقم الضريبي</label><input name="taxNumber" className="input ltr mono" defaultValue={c.taxNumber} /></div>
+        <div className="field"><label>المدينة</label><input name="city" className="input" defaultValue={c.city} /></div>
       </div>
       <div className="field"><label>تاريخ انتهاء الاشتراك</label><input name="expiresAt" type="date" className="input" defaultValue={c.expiresAt} /></div>
       <div className="field"><label>ملاحظات داخلية</label><textarea name="notes" rows={3} className="input" defaultValue={c.notes} /></div>
@@ -35,7 +39,7 @@ export function ResetPasswordForm({ users }: { users: { id: string; label: strin
         </div>
         <div className="field"><label>كلمة السر الجديدة</label><input name="password" className="input ltr" required minLength={8} autoComplete="off" /></div>
       </div>
-      <SubmitButton className="btn btn-ghost">تغيير كلمة السر</SubmitButton>
+      <SubmitButton className="btn btn-ink">تغيير كلمة السر</SubmitButton>
     </form>
   );
 }

@@ -14,12 +14,14 @@ export async function createCompanyAction(_: FormState, fd: FormData): Promise<F
   await requireAdmin();
   const name = str(fd, "name");
   const phone = str(fd, "phone");
+  const taxNumber = str(fd, "taxNumber");
+  const city = str(fd, "city");
   const months = Number(str(fd, "months") || 12);
   const maxUsers = Number(str(fd, "maxUsers") || 5);
   const ownerName = str(fd, "ownerName");
   const username = str(fd, "username").toLowerCase();
   const password = String(fd.get("password") ?? "");
-  const data = { name, phone, months: String(months), maxUsers: String(maxUsers), ownerName, username };
+  const data = { name, phone, taxNumber, city, months: String(months), maxUsers: String(maxUsers), ownerName, username };
 
   if (!name || !ownerName || !username) return { error: "عبّي كل الحقول المطلوبة", data };
   if (!USERNAME_RE.test(username)) return { error: "اسم المستخدم: أحرف إنجليزية صغيرة وأرقام فقط (3-32)", data };
@@ -38,7 +40,7 @@ export async function createCompanyAction(_: FormState, fd: FormData): Promise<F
     try {
       const company = await prisma.company.create({
         data: {
-          name, phone: phone || null, expiresAt, maxUsers,
+          name, phone: phone || null, taxNumber: taxNumber || null, city: city || null, expiresAt, maxUsers,
           subscriptionCode: generateSubscriptionCode(),
           users: { create: { username, fullName: ownerName, passwordHash, role: "OWNER" } },
         },
@@ -84,15 +86,16 @@ export async function updateCompanyAction(_: FormState, fd: FormData): Promise<F
   const name = str(fd, "name");
   const phone = str(fd, "phone");
   const notes = str(fd, "notes");
+  const taxNumber = str(fd, "taxNumber");
+  const city = str(fd, "city");
   const maxUsers = Number(str(fd, "maxUsers"));
-  const expiresAt = new Date(str(fd, "expiresAt"));
+  const expiresAt = new Date(`${str(fd, "expiresAt")}T23:59:59+03:00`); // نهاية اليوم بتوقيت عمّان
   if (!name) return { error: "اسم الشركة مطلوب" };
   if (!(maxUsers >= 1 && maxUsers <= 500)) return { error: "عدد المستخدمين غير صحيح" };
   if (isNaN(expiresAt.getTime())) return { error: "تاريخ الانتهاء غير صحيح" };
-  expiresAt.setHours(23, 59, 59, 0);
   await prisma.company.update({
     where: { id },
-    data: { name, phone: phone || null, notes: notes || null, maxUsers, expiresAt },
+    data: { name, phone: phone || null, taxNumber: taxNumber || null, city: city || null, notes: notes || null, maxUsers, expiresAt },
   });
   revalidatePath("/admin", "layout");
   return { ok: "تم الحفظ" };

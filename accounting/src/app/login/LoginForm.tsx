@@ -23,7 +23,7 @@ export function LoginForm({ notice }: { notice?: string }) {
         <label htmlFor="password">كلمة السر</label>
         <input id="password" name="password" type="password" className="input ltr" autoComplete="current-password" required />
       </div>
-      <SubmitButton className="btn btn-gold btn-block" pending="جاري الدخول...">تسجيل الدخول</SubmitButton>
+      <SubmitButton className="btn btn-primary btn-block" pending="جاري الدخول...">دخول ←</SubmitButton>
     </form>
   );
 }

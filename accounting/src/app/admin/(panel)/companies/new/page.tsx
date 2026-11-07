@@ -9,14 +9,18 @@ export default function NewCompany() {
   const d = state?.data ?? {};
   return (
     <>
-      <PageHeader title="إضافة شركة جديدة" />
+      <PageHeader eyebrow="New subscription" title="إضافة شركة جديدة" />
       <div className="content">
         <form action={action} className="grid grid-2" style={{ alignItems: "start" }}>
           <div className="card">
             <div className="card-title">بيانات الشركة والاشتراك</div>
             <FormAlert state={state} />
             <div className="field"><label>اسم الشركة *</label><input name="name" className="input" defaultValue={d.name} required /></div>
-            <div className="field"><label>رقم الهاتف</label><input name="phone" className="input ltr" defaultValue={d.phone} /></div>
+            <div className="form-row">
+              <div className="field"><label>رقم الهاتف</label><input name="phone" className="input ltr" placeholder="07XXXXXXXX" defaultValue={d.phone} /></div>
+              <div className="field"><label>المدينة</label><input name="city" className="input" placeholder="عمّان" defaultValue={d.city} /></div>
+            </div>
+            <div className="field"><label>الرقم الضريبي</label><input name="taxNumber" className="input ltr mono" defaultValue={d.taxNumber} /></div>
             <div className="form-row">
               <div className="field">
                 <label>مدة الاشتراك</label>
@@ -29,12 +33,12 @@ export default function NewCompany() {
             </div>
             <p className="muted small" style={{ margin: 0 }}>رقم الاشتراك بينعمل تلقائياً بعد الحفظ.</p>
           </div>
-          <div className="card">
+          <div className="card raised">
             <div className="card-title">حساب مدير الشركة</div>
             <div className="field"><label>الاسم الكامل *</label><input name="ownerName" className="input" defaultValue={d.ownerName} required /></div>
             <div className="field"><label>اسم المستخدم * (إنجليزي)</label><input name="username" className="input ltr" defaultValue={d.username} required autoCapitalize="none" pattern="[a-zA-Z0-9._\-]{3,32}" /></div>
             <div className="field"><label>كلمة السر المؤقتة *</label><input name="password" type="text" className="input ltr" required minLength={8} autoComplete="off" /></div>
-            <SubmitButton className="btn btn-gold btn-block" pending="جاري الإنشاء...">إنشاء الشركة</SubmitButton>
+            <SubmitButton className="btn btn-primary btn-block" pending="جاري الإنشاء...">إنشاء الشركة</SubmitButton>
           </div>
         </form>
       </div>

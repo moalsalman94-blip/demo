@@ -1,5 +1,6 @@
 import { requireCompanyUser } from "@/lib/auth";
-import { fmtDate, daysLeft } from "@/lib/format";
+import { LOCALE } from "@/lib/brand";
+import { fmtDate, fmtMoney, daysLeft } from "@/lib/format";
 import { PageHeader } from "@/components/Shell";
 
 export default async function DashboardHome({ searchParams }: { searchParams: Promise<{ denied?: string }> }) {
@@ -7,44 +8,46 @@ export default async function DashboardHome({ searchParams }: { searchParams: Pr
   const { user, company, db } = await requireCompanyUser();
   const usersCount = await db.user.count();
   const left = daysLeft(company.expiresAt);
-  const hour = new Date().getHours();
+  const hour = Number(new Intl.DateTimeFormat("en", { hour: "numeric", hourCycle: "h23", timeZone: LOCALE.timeZone }).format(new Date()));
+  const month = new Intl.DateTimeFormat("ar-JO", { month: "long", year: "numeric", numberingSystem: "latn", timeZone: LOCALE.timeZone }).format(new Date());
+  const cur = <small>{LOCALE.currencySymbol}</small>;
 
   return (
     <>
-      <PageHeader title="الرئيسية" />
+      <PageHeader eyebrow={`${hour < 12 ? "صباح الخير" : "مساء الخير"} · ${month}`} title={user.fullName} />
       <div className="content">
         {denied && <div className="alert alert-error">ما عندك صلاحية لهاي الصفحة.</div>}
         {left <= 14 && (
-          <div className="alert alert-warn">
-            اشتراك الشركة بينتهي خلال {left} يوم ({fmtDate(company.expiresAt)}). تواصل معنا للتجديد.
-          </div>
+          <div className="alert alert-warn">اشتراك الشركة بينتهي خلال {left} يوم ({fmtDate(company.expiresAt)}). تواصل معنا للتجديد.</div>
         )}
 
-        <div className="card" style={{ background: "linear-gradient(135deg, var(--navy), var(--navy-2))", color: "#efe9dc", border: 0 }}>
-          <div style={{ fontSize: 13, color: "#d4b06a" }}>{hour < 12 ? "صباح الخير" : "مساء الخير"}</div>
-          <h2 style={{ fontSize: 26, marginTop: 4 }}>{user.fullName}</h2>
-          <p style={{ color: "#b8b3a7", margin: "6px 0 0" }}>{company.name} · رقم الاشتراك <span className="mono">{company.subscriptionCode}</span></p>
+        <div className="ledger">
+          <div><div className="k">الإيرادات</div><div className="v">{cur}{fmtMoney(0)}</div><div className="h">هذا الشهر</div></div>
+          <div><div className="k">المصاريف</div><div className="v">{cur}{fmtMoney(0)}</div><div className="h">هذا الشهر</div></div>
+          <div><div className="k">صافي الربح</div><div className="v">{cur}{fmtMoney(0)}</div><div className="h">قبل الضريبة</div></div>
+          <div className="accent"><div className="k">الاشتراك</div><div className="v">{left}<small> يوم</small></div><div className="h">ينتهي {fmtDate(company.expiresAt)}</div></div>
         </div>
 
-        <div className="grid grid-stats">
-          <div className="card stat"><div className="stat-label">الإيرادات (هذا الشهر)</div><div className="stat-value">0.00</div><div className="stat-hint">بتشتغل مع الفواتير</div></div>
-          <div className="card stat"><div className="stat-label">المصاريف (هذا الشهر)</div><div className="stat-value">0.00</div><div className="stat-hint">بتشتغل مع السندات</div></div>
-          <div className="card stat"><div className="stat-label">صافي الربح</div><div className="stat-value">0.00</div><div className="stat-hint">—</div></div>
-          <div className="card stat"><div className="stat-label">الاشتراك</div><div className="stat-value" style={{ fontSize: 20 }}>{left} يوم</div><div className="stat-hint">ينتهي {fmtDate(company.expiresAt)}</div></div>
-        </div>
-
-        <div className="grid grid-2">
+        <div className="grid grid-2" style={{ alignItems: "start" }}>
           <div className="card">
-            <div className="card-title">ابدأ من هون</div>
-            <ol className="muted" style={{ margin: 0, paddingInlineStart: 20, display: "grid", gap: 8 }}>
-              <li>جهّز دليل الحسابات (قريباً)</li>
-              <li>أضف الزبائن والموردين (قريباً)</li>
-              <li>ابدأ بإصدار الفواتير والقيود (قريباً)</li>
-            </ol>
+            <div className="card-title"><span>خطوات البداية</span><span className="eyebrow">Setup</span></div>
+            {["جهّز دليل الحسابات", "أضف الزبائن والموردين", "ابدأ بإصدار الفواتير والقيود"].map((t, i) => (
+              <div key={t} style={{ display: "flex", gap: 14, alignItems: "center", padding: "10px 0", borderBottom: i < 2 ? "1px dashed var(--hair)" : 0 }}>
+                <span className="mono" style={{ fontWeight: 700, color: "var(--accent)" }}>0{i + 1}</span>
+                <span style={{ flex: 1 }}>{t}</span>
+                <span className="badge badge-muted">قريباً</span>
+              </div>
+            ))}
           </div>
           <div className="card">
-            <div className="card-title">فريق العمل</div>
-            <div className="stat-value">{usersCount} <span className="muted" style={{ fontSize: 15 }}>/ {company.maxUsers} مستخدم</span></div>
+            <div className="card-title"><span>بيانات الشركة</span><span className="eyebrow">Company</span></div>
+            <dl style={{ margin: 0, display: "grid", gridTemplateColumns: "auto 1fr", gap: "10px 20px" }}>
+              <dt className="muted">الاسم</dt><dd style={{ margin: 0 }}>{company.name}</dd>
+              <dt className="muted">رقم الاشتراك</dt><dd style={{ margin: 0 }} className="mono">{company.subscriptionCode}</dd>
+              <dt className="muted">الرقم الضريبي</dt><dd style={{ margin: 0 }} className="mono">{company.taxNumber || "—"}</dd>
+              <dt className="muted">العملة</dt><dd style={{ margin: 0 }}>دينار أردني ({LOCALE.currency})</dd>
+              <dt className="muted">المستخدمين</dt><dd style={{ margin: 0 }} className="num">{usersCount} / {company.maxUsers}</dd>
+            </dl>
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ export default async function UsersPage() {
 
   return (
     <>
-      <PageHeader title="المستخدمين والصلاحيات" />
+      <PageHeader eyebrow="Team & roles" title="المستخدمين والصلاحيات" />
       <div className="content">
         <div className="card">
           <div className="card-title"><span>فريق العمل</span><span className="badge badge-muted">{users.length} / {company.maxUsers}</span></div>
@@ -25,7 +25,7 @@ export default async function UsersPage() {
                   <tr key={u.id}>
                     <td><strong>{u.fullName}</strong>{u.id === me.id && <span className="muted small"> (أنت)</span>}<div className="muted small mono">{u.username}</div></td>
                     <td>
-                      {u.id === me.id ? <span className="badge badge-gold">{ROLE_LABELS[u.role]}</span> : (
+                      {u.id === me.id ? <span className="badge badge-accent">{ROLE_LABELS[u.role]}</span> : (
                         <form action={changeRoleAction} style={{ display: "flex", gap: 6 }}>
                           <input type="hidden" name="id" value={u.id} />
                           <select name="role" defaultValue={u.role} className="input" style={{ padding: "5px 10px", width: "auto" }}>

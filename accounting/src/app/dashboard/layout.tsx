@@ -5,35 +5,22 @@ import { logoutAction } from "../login/actions";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, company } = await requireCompanyUser();
-  const isOwner = user.role === "OWNER";
   return (
     <Shell
-      sub={company.name}
+      org={{ title: company.name, sub: company.subscriptionCode }}
+      me={{ name: user.fullName, sub: `${ROLE_LABELS[user.role]} · ${user.username}`, logout: logoutAction }}
       groups={[
-        { items: [{ href: "/dashboard", label: "الرئيسية", icon: "◈", exact: true }] },
-        { title: "المحاسبة", items: [
-          { href: "/dashboard/accounts", label: "دليل الحسابات", icon: "☰", soon: true },
-          { href: "/dashboard/journal", label: "القيود اليومية", icon: "✎", soon: true },
-          { href: "/dashboard/vouchers", label: "سندات القبض والصرف", icon: "⇄", soon: true },
+        { items: [{ href: "/dashboard", label: "الرئيسية", exact: true }] },
+        { items: [
+          { href: "/dashboard/accounts", label: "دليل الحسابات", soon: true },
+          { href: "/dashboard/journal", label: "القيود اليومية", soon: true },
+          { href: "/dashboard/vouchers", label: "السندات", soon: true },
+          { href: "/dashboard/invoices", label: "الفواتير", soon: true },
+          { href: "/dashboard/contacts", label: "الزبائن والموردين", soon: true },
+          { href: "/dashboard/reports", label: "التقارير", soon: true },
         ] },
-        { title: "المبيعات والمشتريات", items: [
-          { href: "/dashboard/invoices", label: "الفواتير", icon: "▤", soon: true },
-          { href: "/dashboard/contacts", label: "الزبائن والموردين", icon: "☺", soon: true },
-        ] },
-        { title: "التقارير", items: [
-          { href: "/dashboard/reports", label: "التقارير المالية", icon: "▥", soon: true },
-        ] },
-        ...(isOwner ? [{ title: "الإدارة", items: [
-          { href: "/dashboard/users", label: "المستخدمين والصلاحيات", icon: "⚿" },
-        ] }] : []),
+        ...(user.role === "OWNER" ? [{ items: [{ href: "/dashboard/users", label: "المستخدمين" }] }] : []),
       ]}
-      footer={
-        <>
-          <div className="who">{user.fullName}</div>
-          <div style={{ opacity: 0.6, marginBottom: 10 }}>{ROLE_LABELS[user.role]} · <span className="mono">{user.username}</span></div>
-          <form action={logoutAction}><button className="btn btn-ghost btn-sm btn-block" style={{ color: "#cfc9bb", borderColor: "rgba(255,255,255,.12)" }}>تسجيل الخروج</button></form>
-        </>
-      }
     >
       {children}
     </Shell>

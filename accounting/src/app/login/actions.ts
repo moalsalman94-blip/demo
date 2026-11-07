@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { companyBlock, endSession, startUserSession } from "@/lib/auth";
 import { fakeVerify, verifyPassword } from "@/lib/password";
-import { isLocked, recordAttempt } from "@/lib/rate-limit";
+import { LIMITS, isLocked, recordAttempt } from "@/lib/rate-limit";
 import { normalizeCode } from "@/lib/codes";
 import { str, type FormState } from "@/lib/form";
 
@@ -21,7 +21,7 @@ export async function loginAction(_: FormState, fd: FormData): Promise<FormState
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
   const key = `user:${code}:${username}`;
   const ipKey = `ip:${ip}`;
-  if ((await isLocked(key)) || (await isLocked(ipKey))) {
+  if ((await isLocked(key)) || (await isLocked(ipKey, LIMITS.ip))) {
     return { error: "محاولات كتير غلط. استنى ربع ساعة وجرب مرة تانية.", data };
   }
 

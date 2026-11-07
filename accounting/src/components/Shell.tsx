@@ -1,56 +1,64 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 
-export type NavItem = { href: string; label: string; icon: string; soon?: boolean; exact?: boolean };
-export type NavGroup = { title?: string; items: NavItem[] };
+export type NavItem = { href: string; label: string; soon?: boolean; exact?: boolean };
+export type NavGroup = { items: NavItem[] };
 
 export function Shell({
-  groups, sub, footer, children,
-}: { groups: NavGroup[]; sub: string; footer: React.ReactNode; children: React.ReactNode }) {
+  groups, org, me, children,
+}: {
+  groups: NavGroup[];
+  org: { title: string; sub: string };
+  me: { name: string; sub: string; logout: () => Promise<void> };
+  children: React.ReactNode;
+}) {
   const path = usePathname();
-  const [open, setOpen] = useState(false);
-  useEffect(() => setOpen(false), [path]);
-
   const isActive = (i: NavItem) => (i.exact ? path === i.href : path === i.href || path.startsWith(i.href + "/"));
 
   return (
-    <div className={`shell${open ? " open" : ""}`}>
-      <aside className="sidebar">
-        <Logo sub={sub} />
-        {groups.map((g, gi) => (
-          <nav key={gi}>
-            {g.title && <div className="nav-section">{g.title}</div>}
-            {g.items.map((i) => (
-              <Link key={i.href} href={i.soon ? "#" : i.href}
-                className={`nav-link${isActive(i) ? " active" : ""}${i.soon ? " disabled" : ""}`}
-                aria-disabled={i.soon}>
-                <span aria-hidden>{i.icon}</span>
-                {i.label}
-                {i.soon && <span className="soon">قريباً</span>}
-              </Link>
-            ))}
-          </nav>
-        ))}
-        <div className="sidebar-foot">{footer}</div>
-      </aside>
-      {open && <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 15, background: "rgba(0,0,0,.4)" }} />}
-      <div className="main">
-        <button className="btn btn-ghost btn-sm menu-toggle" onClick={() => setOpen(true)}
-          style={{ position: "fixed", bottom: 16, left: 16, zIndex: 10, background: "var(--surface)" }}>☰ القائمة</button>
-        {children}
-      </div>
+    <div className="app">
+      <header className="appbar">
+        <div className="appbar-row">
+          <Logo />
+          <div className="org"><strong>{org.title}</strong><span className="muted">{org.sub}</span></div>
+          <div className="me">
+            <div className="me-text"><strong>{me.name}</strong><div className="muted">{me.sub}</div></div>
+            <span className="avatar" aria-hidden>{me.name.trim().charAt(0)}</span>
+            <form action={me.logout}><button className="btn btn-sm">خروج</button></form>
+          </div>
+        </div>
+        <nav className="tabs" aria-label="القائمة">
+          {groups.map((g, gi) => (
+            <span key={gi} style={{ display: "contents" }}>
+              {gi > 0 && <span className="tab-sep" aria-hidden />}
+              {g.items.map((i) =>
+                i.soon ? (
+                  <span key={i.href} className="tab disabled" aria-disabled>{i.label}<span className="soon">قريباً</span></span>
+                ) : (
+                  <Link key={i.href} href={i.href} className={`tab${isActive(i) ? " active" : ""}`} aria-current={isActive(i) ? "page" : undefined}>
+                    {i.label}
+                  </Link>
+                ),
+              )}
+            </span>
+          ))}
+        </nav>
+      </header>
+      <main>{children}</main>
     </div>
   );
 }
 
-export function PageHeader({ title, actions }: { title: string; actions?: React.ReactNode }) {
+export function PageHeader({ title, eyebrow, actions }: { title: string; eyebrow?: string; actions?: React.ReactNode }) {
   return (
-    <header className="topbar">
-      <h1>{title}</h1>
+    <div className="page-head">
+      <div>
+        {eyebrow && <div className="eyebrow" style={{ marginBottom: 6 }}>{eyebrow}</div>}
+        <h1>{title}</h1>
+      </div>
       {actions && <div className="row-actions">{actions}</div>}
-    </header>
+    </div>
   );
 }

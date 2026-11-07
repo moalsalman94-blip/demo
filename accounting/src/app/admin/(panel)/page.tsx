@@ -22,13 +22,13 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
 
   return (
     <>
-      <PageHeader title="الشركات والاشتراكات" actions={<Link href="/admin/companies/new" className="btn btn-gold">＋ شركة جديدة</Link>} />
+      <PageHeader eyebrow="Subscriptions" title="الشركات والاشتراكات" actions={<Link href="/admin/companies/new" className="btn btn-primary">+ شركة جديدة</Link>} />
       <div className="content">
-        <div className="grid grid-stats">
-          <div className="card stat"><div className="stat-label">كل الشركات</div><div className="stat-value">{all.length}</div></div>
-          <div className="card stat"><div className="stat-label">اشتراكات فعّالة</div><div className="stat-value" style={{ color: "var(--ok)" }}>{active}</div></div>
-          <div className="card stat"><div className="stat-label">تنتهي خلال أسبوعين</div><div className="stat-value" style={{ color: "var(--warn)" }}>{soon}</div></div>
-          <div className="card stat"><div className="stat-label">منتهية أو موقوفة</div><div className="stat-value" style={{ color: "var(--danger)" }}>{all.length - active}</div></div>
+        <div className="ledger">
+          <div><div className="k">كل الشركات</div><div className="v">{all.length}</div></div>
+          <div><div className="k">اشتراكات فعّالة</div><div className="v" style={{ color: "var(--ok)" }}>{active}</div></div>
+          <div className="accent"><div className="k">تنتهي خلال أسبوعين</div><div className="v">{soon}</div><div className="h">تواصل معهم للتجديد</div></div>
+          <div><div className="k">منتهية أو موقوفة</div><div className="v" style={{ color: "var(--danger)" }}>{all.length - active}</div></div>
         </div>
 
         <div className="card">

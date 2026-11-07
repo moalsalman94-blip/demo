@@ -7,23 +7,26 @@ import { Logo } from "@/components/Logo";
 export default function AdminLogin() {
   const [state, action] = useActionState(adminLoginAction, undefined);
   return (
-    <main className="auth-form" style={{ minHeight: "100dvh", background: "var(--navy)" }}>
-      <div className="card">
-        <div style={{ marginBottom: 20 }}><Logo sub="لوحة المالك" /></div>
-        <h2>دخول الإدارة</h2>
-        <p className="muted small" style={{ marginTop: 0, marginBottom: 24 }}>إدارة الشركات والاشتراكات</p>
-        <form action={action}>
-          <FormAlert state={state} />
-          <div className="field">
-            <label htmlFor="username">اسم المستخدم</label>
-            <input id="username" name="username" className="input ltr" defaultValue={state?.data?.username} required autoFocus />
-          </div>
-          <div className="field">
-            <label htmlFor="password">كلمة السر</label>
-            <input id="password" name="password" type="password" className="input ltr" required />
-          </div>
-          <SubmitButton className="btn btn-gold btn-block" pending="جاري الدخول...">دخول</SubmitButton>
-        </form>
+    <main className="auth-panel" style={{ minHeight: "100dvh" }}>
+      <div className="ticket">
+        <div className="ticket-head">
+          <Logo size={20} />
+          <h2>لوحة المالك</h2>
+        </div>
+        <div className="ticket-body">
+          <form action={action}>
+            <FormAlert state={state} />
+            <div className="field">
+              <label htmlFor="username">اسم المستخدم</label>
+              <input id="username" name="username" className="input ltr" defaultValue={state?.data?.username} required autoFocus />
+            </div>
+            <div className="field">
+              <label htmlFor="password">كلمة السر</label>
+              <input id="password" name="password" type="password" className="input ltr" required />
+            </div>
+            <SubmitButton className="btn btn-ink btn-block" pending="جاري الدخول...">دخول</SubmitButton>
+          </form>
+        </div>
       </div>
     </main>
   );

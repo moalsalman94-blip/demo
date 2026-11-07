@@ -4,7 +4,7 @@ import type { FormState } from "@/lib/form";
 
 export function SubmitButton({
   children,
-  className = "btn btn-gold",
+  className = "btn btn-primary",
   pending: pendingText = "جاري الحفظ...",
 }: {
   children: React.ReactNode;

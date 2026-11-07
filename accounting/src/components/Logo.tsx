@@ -1,13 +1,8 @@
-import { BRAND } from "@/lib/brand";
-
-export function Logo({ sub }: { sub?: string }) {
+// الشعار: ERP بالحبر + BACK بلون الإشارة + مربع
+export function Logo({ size }: { size?: number }) {
   return (
-    <span className="logo">
-      <span className="logo-mark">{BRAND.mark}</span>
-      <span>
-        {BRAND.name}
-        {sub && <span style={{ display: "block", fontSize: 11.5, fontWeight: 500, opacity: 0.6 }}>{sub}</span>}
-      </span>
+    <span className="wordmark" style={size ? { fontSize: size } : undefined} aria-label="ERPBACK">
+      ERP<b>BACK</b><i aria-hidden />
     </span>
   );
 }

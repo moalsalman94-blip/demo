@@ -1,4 +1,3 @@
-# demo
+# ERPBACK
 
-- `accounting/`: **ميزان**، برنامج المحاسبة السحابي متعدد الشركات (التفاصيل بـ [accounting/README.md](accounting/README.md))
-- `index.html`: اللعبة
+نظام محاسبة سحابي متعدد الشركات للسوق الأردني. الكود والتفاصيل بمجلد [`accounting/`](accounting/README.md).

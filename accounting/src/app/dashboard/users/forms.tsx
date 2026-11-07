@@ -35,7 +35,7 @@ export function ResetForm({ id }: { id: string }) {
     <form action={action} style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
       <input type="hidden" name="id" value={id} />
       <input name="password" className="input ltr" placeholder="كلمة سر جديدة" required minLength={8} style={{ padding: "5px 10px", width: 160 }} />
-      <SubmitButton className="btn btn-gold btn-sm" pending="...">حفظ</SubmitButton>
+      <SubmitButton className="btn btn-primary btn-sm" pending="...">حفظ</SubmitButton>
       {state?.error && <span className="small" style={{ color: "var(--danger)" }}>{state.error}</span>}
       {state?.ok && <span className="small" style={{ color: "var(--ok)" }}>✔</span>}
     </form>

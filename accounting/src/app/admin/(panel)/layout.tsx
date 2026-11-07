@@ -6,18 +6,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const admin = await requireAdmin();
   return (
     <Shell
-      sub="لوحة المالك"
+      org={{ title: "لوحة المالك", sub: "إدارة الاشتراكات" }}
+      me={{ name: admin.username, sub: "مالك النظام", logout: adminLogoutAction }}
       groups={[{ items: [
-        { href: "/admin", label: "الشركات والاشتراكات", icon: "▣", exact: true },
-        { href: "/admin/companies/new", label: "شركة جديدة", icon: "＋" },
+        { href: "/admin", label: "الشركات والاشتراكات", exact: true },
+        { href: "/admin/companies/new", label: "+ شركة جديدة" },
       ] }]}
-      footer={
-        <>
-          <div className="who">{admin.username}</div>
-          <div style={{ opacity: 0.6, marginBottom: 10 }}>مالك البرنامج</div>
-          <form action={adminLogoutAction}><button className="btn btn-ghost btn-sm btn-block" style={{ color: "#cfc9bb", borderColor: "rgba(255,255,255,.12)" }}>تسجيل الخروج</button></form>
-        </>
-      }
     >
       {children}
     </Shell>
