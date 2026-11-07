@@ -1,0 +1,87 @@
+// قاعدة بيانات برنامج المحاسبة - متعدد الشركات (Multi-tenant)
+// كل جدول خاص بشركة لازم يحتوي companyId، والعزل بيصير تلقائياً عبر src/lib/tenant.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum CompanyStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum UserRole {
+  OWNER // مدير الشركة - كل الصلاحيات
+  ACCOUNTANT // محاسب
+  VIEWER // مشاهد فقط
+}
+
+// مالك البرنامج (أنت) - لوحة إدارة الاشتراكات
+model SuperAdmin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Company {
+  id               String        @id @default(cuid())
+  name             String
+  subscriptionCode String        @unique
+  status           CompanyStatus @default(ACTIVE)
+  expiresAt        DateTime
+  maxUsers         Int           @default(5)
+  phone            String?
+  taxNumber        String? // الرقم الضريبي (دائرة ضريبة الدخل والمبيعات)
+  city             String?
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  users     User[]
+  auditLogs AuditLog[]
+}
+
+model User {
+  id           String    @id @default(cuid())
+  companyId    String
+  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  username     String
+  fullName     String
+  passwordHash String
+  role         UserRole  @default(ACCOUNTANT)
+  active       Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@unique([companyId, username])
+  @@index([companyId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  userId    String?
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  @@index([companyId, createdAt])
+}
+
+// لمنع تخمين كلمات السر
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  key       String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+}
